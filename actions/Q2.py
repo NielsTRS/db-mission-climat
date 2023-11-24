@@ -16,5 +16,22 @@ class Window(tk.Toplevel):
         #TODO Q2 Modifier la suite du code (en se basant sur le code de F1) pour répondre à Q2
 
         # On définit les colonnes que l'on souhaite afficher dans la fenêtre et la requête
+        columns = ('nom_region', 'nom_departement','temperature_min_moy')
+        query = """WITH TempMinMoyByDep AS (
+                    SELECT code_region, code_departement, AVG(temperature_min_mesure) AS temperature_min_moy_dep
+                    FROM Mesures JOIN Departements USING (code_departement) JOIN Regions USING (code_region)
+                    GROUP BY code_region, code_departement
+
+                    ), TempMinMoyByRegion AS (
+                    SELECT nom_region, MIN(temperature_min_moy_dep) AS temperature_min_moy
+                    FROM TempMinMoyByDep JOIN Regions USING (code_region)
+                    GROUP BY nom_region
+                    )
+                    SELECT nom_region, nom_departement, temperature_min_moy
+                    FROM TempMinMoyByRegion JOIN TempMinMoyByDep ON (temperature_min_moy_dep = temperature_min_moy) JOIN Departements USING (code_departement)
+                """
 
         # On utilise la fonction createTreeViewDisplayQuery pour afficher les résultats de la requête
+        #TODO Q1 Aller voir le code de createTreeViewDisplayQuery dans utils/display.py
+        tree = display.createTreeViewDisplayQuery(self, columns, query,200)
+        tree.grid(row=0, sticky="nswe")
