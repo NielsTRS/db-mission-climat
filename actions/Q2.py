@@ -17,18 +17,22 @@ class Window(tk.Toplevel):
 
         # On définit les colonnes que l'on souhaite afficher dans la fenêtre et la requête
         columns = ('nom_region', 'nom_departement','temperature_min_moy')
-        query = """WITH TempMinMoyByDep AS (
-                    SELECT code_region, code_departement, AVG(temperature_min_mesure) AS temperature_min_moy_dep
-                    FROM Mesures JOIN Departements USING (code_departement) JOIN Regions USING (code_region)
-                    GROUP BY code_region, code_departement
-
-                    ), TempMinMoyByRegion AS (
+        query = """
+                WITH TempMinMoyByDep AS (
+                    SELECT R.code_region, D.code_departement, AVG(M.temperature_min_mesure) AS temperature_min_moy_dep
+                    FROM Regions R
+                    JOIN Departements D ON R.code_region = D.code_region
+                    JOIN Mesures M ON D.code_departement = M.code_departement
+                    GROUP BY R.code_region, D.code_departement
+                ), TempMinMoyByRegion AS (
                     SELECT nom_region, MIN(temperature_min_moy_dep) AS temperature_min_moy
                     FROM TempMinMoyByDep JOIN Regions USING (code_region)
                     GROUP BY nom_region
-                    )
-                    SELECT nom_region, nom_departement, temperature_min_moy
-                    FROM TempMinMoyByRegion JOIN TempMinMoyByDep ON (temperature_min_moy_dep = temperature_min_moy) JOIN Departements USING (code_departement)
+                )
+                SELECT nom_region, nom_departement, temperature_min_moy
+                FROM TempMinMoyByRegion
+                JOIN TempMinMoyByDep ON (temperature_min_moy_dep = temperature_min_moy)
+                JOIN Departements USING (code_departement);
                 """
 
         # On utilise la fonction createTreeViewDisplayQuery pour afficher les résultats de la requête
