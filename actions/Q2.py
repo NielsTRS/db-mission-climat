@@ -18,20 +18,20 @@ class Window(tk.Toplevel):
         # On définit les colonnes que l'on souhaite afficher dans la fenêtre et la requête
         columns = ('nom_region', 'nom_departement','temperature_min_moy')
         query = """
-                WITH TempMinMoyByDep AS (
-                    SELECT R.code_region, D.code_departement, AVG(M.temperature_min_mesure) AS temperature_min_moy_dep
-                    FROM Regions R
-                    JOIN Departements D ON R.code_region = D.code_region
-                    JOIN Mesures M ON D.code_departement = M.code_departement
-                    GROUP BY R.code_region, D.code_departement
+                WITH TempMoyByDep AS (
+                    SELECT code_region, code_departement, AVG(temperature_moy_mesure) AS temperature_moy_dep
+                    FROM Regions
+                    JOIN Departements USING (code_region)
+                    JOIN Mesures USING (code_departement)
+                    GROUP BY code_region, code_departement
                 ), TempMinMoyByRegion AS (
-                    SELECT nom_region, MIN(temperature_min_moy_dep) AS temperature_min_moy
-                    FROM TempMinMoyByDep JOIN Regions USING (code_region)
+                    SELECT nom_region, MIN(temperature_moy_dep) AS temperature_min_moy
+                    FROM TempMoyByDep JOIN Regions USING (code_region)
                     GROUP BY nom_region
                 )
                 SELECT nom_region, nom_departement, temperature_min_moy
                 FROM TempMinMoyByRegion
-                JOIN TempMinMoyByDep ON (temperature_min_moy_dep = temperature_min_moy)
+                JOIN TempMoyByDep ON (temperature_moy_dep = temperature_min_moy)
                 JOIN Departements USING (code_departement);
                 """
 

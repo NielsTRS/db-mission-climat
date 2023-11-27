@@ -55,7 +55,8 @@ class Window(tk.Toplevel):
     def get_regions_from_database(self):
         cursor = db.data.cursor()
         cursor.execute("""
-            SELECT DISTINCT nom_region FROM Regions
+            SELECT DISTINCT nom_region 
+            FROM Regions
         """)
         regions = [row[0] for row in cursor.fetchall()]
         return regions
