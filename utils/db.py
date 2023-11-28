@@ -87,10 +87,18 @@ def insertDB():
         print("Insertion de mesures en cours...cela peut prendre un peu de temps")
         # On ajoute les mesures
         read_csv_file(
-             "data/csv/Mesures.csv", ';',
+             "data/csv/MesuresSmall.csv", ';',
              "insert into Mesures values ('{}','{}', {}, {}, {})",
              ['code_insee_departement', 'date_obs', 'tmin', 'tmax', 'tmoy']
         )
+
+        # On ajoute commune
+        read_csv_file(
+             "data/csv/Communes.csv", ';',
+             "insert into Communes values ('{}','{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}')",
+             ['Code Commune', 'Code Département', 'Commune', 'Statut', 'Altitude Moyenne', 'Superficie', 'Population', 'Code Canton', 'Code Arrondissement']
+        )
+
 
     except Exception as e:
         print ("L'erreur suivante s'est produite lors de l'insertion des données : " + repr(e) + ".")
