@@ -11,7 +11,7 @@ class App(tk.Tk):
     def __init__(self):
         super().__init__()
 
-        # Définition de la taille et du titre de la fenêtre test
+        # Définition de la taille et du titre de la fenêtre
         display.centerWindow(500, 650, self)
         self.title('Mission climat')
 
