@@ -43,7 +43,7 @@ create table Communes (
 );
 
 create table Travaux (
-    id_travaux INTEGER,
+    id_travaux AUTOINCREMENT,
     cout_total_ht_travaux FLOAT,
     cout_induit_ht_travaux FLOAT,
     annee_travaux INTEGER,

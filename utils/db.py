@@ -92,11 +92,39 @@ def insertDB():
              ['code_insee_departement', 'date_obs', 'tmin', 'tmax', 'tmoy']
         )
 
-        # On ajoute commune
+        # On ajoute les communes
         read_csv_file(
              "data/csv/Communes.csv", ';',
-             "insert into Communes values ('{}','{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}')",
+             "insert into Communes values ('{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}')",
              ['Code Commune', 'Code Département', 'Commune', 'Statut', 'Altitude Moyenne', 'Superficie', 'Population', 'Code Canton', 'Code Arrondissement']
+        )
+
+        # On ajoute les travaux
+        read_csv_file(
+             "data/csv/A VOIR.csv", ';',
+             "insert into A VOIR values ('{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}')",
+             ['A VOIR', 'cout_total_ht', 'cout_induit_ht', 'annee_travaux', 'type_logement', 'annee_construction', 'code_region', 'code_departement']
+        )
+
+        # On ajoute les isolations
+        read_csv_file(
+             "data/csv/Isolation.csv", ';',
+             "insert into Isolations values ('{}' ,'{}', '{}', '{}', '{}')",
+             ['A VOIR', 'poste_isolation', 'isolant', 'epaisseur', 'surface']
+        )
+
+        # On ajoute les chauffages
+        read_csv_file(
+             "data/csv/Chauffage.csv", ';',
+             "insert into Chauffages values ('{}','{}', '{}', '{}', '{}')",
+             ['A VOIR', 'energie_chauffage_avt_travaux', 'energie_chauffage_installee', 'generateur', 'type_chaudiere']
+        )
+
+        # On ajoute les photovoltaiques
+        read_csv_file(
+             "data/csv/Photovoltaique.csv", ';',
+             "insert into Photovoltaiques values ('{}','{}', '{}')",
+             ['A VOIR', 'puissance_installee', 'type_panneaux']
         )
 
 

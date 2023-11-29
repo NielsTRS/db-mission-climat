@@ -19,14 +19,26 @@ class Window(tk.Toplevel):
         tab2 = ttk.Frame(tabControl)
         tab3 = ttk.Frame(tabControl)
         tab4 = ttk.Frame(tabControl)
+        tab5 = ttk.Frame(tabControl)
+        tab6 = ttk.Frame(tabControl)
+        tab7 = ttk.Frame(tabControl)
+        tab8 = ttk.Frame(tabControl)
         tabControl.add(tab1, text='Mesures (1000 1ères valeurs)')
         tabControl.add(tab2, text='Départements')
         tabControl.add(tab3, text='Régions')
         tabControl.add(tab4, text='Communes')
+        tabControl.add(tab5, text='Travaux')
+        tabControl.add(tab6, text='Isolations')
+        tabControl.add(tab7, text='Chauffages')
+        tabControl.add(tab8, text='Photovoltaiques')
         display.defineGridDisplay(tab1, 1, 2)
         display.defineGridDisplay(tab2, 1, 2)
         display.defineGridDisplay(tab3, 1, 2)
         display.defineGridDisplay(tab4, 1, 2)
+        display.defineGridDisplay(tab5, 1, 2)
+        display.defineGridDisplay(tab6, 1, 2)
+        display.defineGridDisplay(tab7, 1, 2)
+        display.defineGridDisplay(tab8, 1, 2)
         tabControl.grid(row=0, column=0, sticky="nswe")
 
         # Mesures
@@ -84,5 +96,55 @@ class Window(tk.Toplevel):
         tree.grid(row=0, sticky="nswe")
         scrollbar.grid(row=0, column=1, sticky="ns")
 
+        # Travaux
+        columns = ('id_travaux', 'cout_total_ht_travaux', 'cout_induit_ht_travaux', 'annee_travaux', 'type_logement_travaux', 'annee_construction_logement_travaux', 'code_region', 'code_departement')
+        query = """
+            SELECT id_travaux, cout_total_ht_travaux, cout_induit_ht_travaux, annee_travaux, type_logement_travaux, annee_construction_logement_travaux, code_region, code_departement
+            FROM Travaux
+            ORDER BY id_travaux
+        """
+        tree = display.createTreeViewDisplayQuery(tab5, columns, query, 85)
+        scrollbar = ttk.Scrollbar(tab4,orient='vertical',command=tree.yview)
+        tree.configure(yscrollcommand=scrollbar.set)
+        tree.grid(row=0, sticky="nswe")
+        scrollbar.grid(row=0, column=1, sticky="ns")
 
+        # Isolations
+        columns = ('id_travaux', 'poste_isolation', 'isolant_isolation', 'epaisseur_isolation', 'surface_isolation')
+        query = """
+            SELECT id_travaux, poste_isolation, isolant_isolation, epaisseur_isolation, surface_isolation
+            FROM Isolations
+            ORDER BY id_travaux
+        """
+        tree = display.createTreeViewDisplayQuery(tab5, columns, query, 85)
+        scrollbar = ttk.Scrollbar(tab4,orient='vertical',command=tree.yview)
+        tree.configure(yscrollcommand=scrollbar.set)
+        tree.grid(row=0, sticky="nswe")
+        scrollbar.grid(row=0, column=1, sticky="ns")
+
+        # Chauffages
+        columns = ('id_travaux', 'energie_avt_travaux_chauffage', 'energie_installee_chauffage', 'generateur_chauffage', 'type_chauffage')
+        query = """
+            SELECT id_travaux, energie_avt_travaux_chauffage, energie_installee_chauffage, generateur_chauffage, type_chauffage
+            FROM Chauffages
+            ORDER BY id_travaux
+        """
+        tree = display.createTreeViewDisplayQuery(tab5, columns, query, 85)
+        scrollbar = ttk.Scrollbar(tab4,orient='vertical',command=tree.yview)
+        tree.configure(yscrollcommand=scrollbar.set)
+        tree.grid(row=0, sticky="nswe")
+        scrollbar.grid(row=0, column=1, sticky="ns")
+
+        # Photovoltaiques
+        columns = ('id_travaux', 'puissance_installee_photovoltaique', 'type_panneau_photovoltaique')
+        query = """
+            SELECT id_travaux, puissance_installee_photovoltaique, type_panneau_photovoltaique
+            FROM Photovoltaiques
+            ORDER BY id_travaux
+        """
+        tree = display.createTreeViewDisplayQuery(tab5, columns, query, 85)
+        scrollbar = ttk.Scrollbar(tab4,orient='vertical',command=tree.yview)
+        tree.configure(yscrollcommand=scrollbar.set)
+        tree.grid(row=0, sticky="nswe")
+        scrollbar.grid(row=0, column=1, sticky="ns")
 
