@@ -2,7 +2,7 @@ import tkinter as tk
 from utils import display
 from utils import db
 from datetime import datetime
-from matplotlib.figure import Figure
+import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
 class Window(tk.Toplevel):
@@ -13,17 +13,19 @@ class Window(tk.Toplevel):
         display.centerWindow(1000, 600, self)
         self.title('Q6 : Graphique correlation temperatures minimales - coût de travaux (Isère / 2022)')
         display.defineGridDisplay(self, 2, 1)
-   #     ttk.Label(self, text="""Pour l’Isère et l'année 2022, donner deux courbes sur le même graphique  :
-   #- par mois, l’évolution de la moyenne des températures minimales
-   #- par mois, l’évolution des totaux de coûts de travaux tout type confondu""",
-   #               wraplength=500, anchor="center", font=('Helvetica', '10', 'bold')).grid(sticky="we", row=0)
+
         query = """
-                    SELECT M.date_mesure, AVG(M.temperature_min_mesure), SUM(T.cout_total_ht_travaux)
-                    FROM Mesures M
-                    JOIN Travaux T ON (M.code_departement = T.code_departement AND strftime('%Y', M.date_mesure) = T.annee_travaux)
-                    WHERE M.code_departement = 38 AND strftime('%Y', M.date_mesure) = '2022'
-                    GROUP BY M.date_mesure
-                """
+            WITH Data AS (SELECT T.annee_travaux, SUM(T.cout_total_ht_travaux) as total
+              FROM Travaux T
+              WHERE T.annee_travaux = 2022
+                AND T.code_departement = 38
+              GROUP BY T.annee_travaux
+            )
+            SELECT strftime('%Y-%m', M.date_mesure) as mois, D.total, AVG(M.temperature_min_mesure) as temp
+            FROM Data D
+            JOIN Mesures M ON (D.annee_travaux = strftime('%Y', M.date_mesure) AND M.code_departement = 38)
+            GROUP BY mois, D.total;
+        """
 
         # Extraction des données et affichage dans le tableau
         result = []
@@ -35,27 +37,36 @@ class Window(tk.Toplevel):
 
         # Extraction et préparation des valeurs à mettre sur le graphique
         tabmin = []
+        tabtot = []
         tabx = []
         for row in result:
             tabx.append(row[0])
-            tabmin.append(row[1])
+            tabtot.append(row[1])
+            tabmin.append(row[2])
 
         # Formatage des dates pour l'affichage sur l'axe x
-        datetime_dates = [datetime.strptime(date, '%Y-%m-%d') for date in tabx]
+        datetime_dates = [datetime.strptime(date, '%Y-%m') for date in tabx]
 
-        # Ajout de la figure et du subplot qui contiendront le graphique
-        fig = Figure(figsize=(10, 6), dpi=100)
-        plot1 = fig.add_subplot(111)
+        # Ajout de la figure et des subplots qui contiendront le graphique
+        fig, ax1 = plt.subplots(figsize=(10, 6), dpi=100)
 
-        # Affichage des courbes
-        plot1.plot(range(len(datetime_dates)), tabmin, color='b', label='temp. min')
+        # Affichage de la courbe température minimale sur l'axe y1
+        color1 = 'tab:blue'
+        ax1.set_xlabel('Mois')
+        ax1.set_ylabel('Température Minimale', color=color1)
+        ax1.plot(datetime_dates, tabmin, color=color1)
+        ax1.tick_params(axis='y', labelcolor=color1)
+        ax1.set_xticks([i for i, date in enumerate(datetime_dates) if date.day == 1])
+        ax1.set_xticklabels([date.strftime('%m-%d') for date in datetime_dates if date.day == 1], rotation=45)
 
-        # Configuration de l'axe x pour n'afficher que le premier jour de chaque mois
-        xticks = [i for i, date in enumerate(datetime_dates) if date.day == 1]
-        xticklabels = [date.strftime('%m-%d') for date in datetime_dates if date.day == 1]
-        plot1.set_xticks(xticks)
-        plot1.set_xticklabels(xticklabels, rotation=45)
-        plot1.legend()
+        # Création d'un axe y secondaire (y2) pour la courbe coût travaux
+        ax2 = ax1.twinx()
+        color2 = 'tab:green'
+        ax2.set_ylabel('Coût Travaux', color=color2)
+        ax2.plot(datetime_dates, tabtot, color=color2)
+        ax2.tick_params(axis='y', labelcolor=color2)
+
+        fig.tight_layout()
 
         # Affichage du graphique
         canvas = FigureCanvasTkAgg(fig, master=self)
