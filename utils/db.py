@@ -101,30 +101,40 @@ def insertDB():
 
         # On ajoute les travaux
         read_csv_file(
-             "data/csv/A VOIR.csv", ';',
-             "insert into A VOIR values ('{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}')",
-             ['A VOIR', 'cout_total_ht', 'cout_induit_ht', 'annee_travaux', 'type_logement', 'annee_construction', 'code_region', 'code_departement']
+             "data/csv/Isolation.csv", ';',
+             "insert into Travaux values ('{}, '{}', '{}', '{}', '{}', '{}', '{}', '{}')",
+             ['cout_total_ht', 'cout_induit_ht', 'annee_travaux', 'type_logement', 'annee_construction', 'code_region', 'code_departement']
+        )
+        read_csv_file(
+             "data/csv/Chauffage.csv", ';',
+             "insert into Travaux values ('{}','{}', '{}', '{}', '{}', '{}', '{}', '{}')",
+             ['cout_total_ht', 'cout_induit_ht', 'annee_travaux', 'type_logement', 'annee_construction', 'code_region', 'code_departement']
+        )
+        read_csv_file(
+             "data/csv/Photovoltaique.csv", ';',
+             "insert into Travaux values ('{}','{}', '{}', '{}', '{}', '{}', '{}', '{}')",
+             ['cout_total_ht', 'cout_induit_ht', 'annee_travaux', 'type_logement', 'annee_construction', 'code_region', 'code_departement']
         )
 
         # On ajoute les isolations
         read_csv_file(
              "data/csv/Isolation.csv", ';',
-             "insert into Isolations values ('{}' ,'{}', '{}', '{}', '{}')",
-             ['A VOIR', 'poste_isolation', 'isolant', 'epaisseur', 'surface']
+             "insert into Isolations values ('{}', '{}', '{}', '{}', '{}')",
+             ['poste_isolation', 'isolant', 'epaisseur', 'surface']
         )
 
         # On ajoute les chauffages
         read_csv_file(
              "data/csv/Chauffage.csv", ';',
-             "insert into Chauffages values ('{}','{}', '{}', '{}', '{}')",
-             ['A VOIR', 'energie_chauffage_avt_travaux', 'energie_chauffage_installee', 'generateur', 'type_chaudiere']
+             "insert into Chauffages values ('{}, '{}', '{}', '{}', '{}')",
+             ['energie_chauffage_avt_travaux', 'energie_chauffage_installee', 'generateur', 'type_chaudiere']
         )
 
         # On ajoute les photovoltaiques
         read_csv_file(
              "data/csv/Photovoltaique.csv", ';',
-             "insert into Photovoltaiques values ('{}','{}', '{}')",
-             ['A VOIR', 'puissance_installee', 'type_panneaux']
+             "insert into Photovoltaiques values ('{}, '{}', '{}')",
+             ['puissance_installee', 'type_panneaux']
         )
 
 
