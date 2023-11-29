@@ -104,7 +104,7 @@ class Window(tk.Toplevel):
             ORDER BY id_travaux
         """
         tree = display.createTreeViewDisplayQuery(tab5, columns, query, 85)
-        scrollbar = ttk.Scrollbar(tab4,orient='vertical',command=tree.yview)
+        scrollbar = ttk.Scrollbar(tab5,orient='vertical',command=tree.yview)
         tree.configure(yscrollcommand=scrollbar.set)
         tree.grid(row=0, sticky="nswe")
         scrollbar.grid(row=0, column=1, sticky="ns")
@@ -116,8 +116,8 @@ class Window(tk.Toplevel):
             FROM Isolations
             ORDER BY id_travaux
         """
-        tree = display.createTreeViewDisplayQuery(tab5, columns, query, 85)
-        scrollbar = ttk.Scrollbar(tab4,orient='vertical',command=tree.yview)
+        tree = display.createTreeViewDisplayQuery(tab6, columns, query, 150)
+        scrollbar = ttk.Scrollbar(tab6,orient='vertical',command=tree.yview)
         tree.configure(yscrollcommand=scrollbar.set)
         tree.grid(row=0, sticky="nswe")
         scrollbar.grid(row=0, column=1, sticky="ns")
@@ -129,8 +129,8 @@ class Window(tk.Toplevel):
             FROM Chauffages
             ORDER BY id_travaux
         """
-        tree = display.createTreeViewDisplayQuery(tab5, columns, query, 85)
-        scrollbar = ttk.Scrollbar(tab4,orient='vertical',command=tree.yview)
+        tree = display.createTreeViewDisplayQuery(tab7, columns, query, 150)
+        scrollbar = ttk.Scrollbar(tab7,orient='vertical',command=tree.yview)
         tree.configure(yscrollcommand=scrollbar.set)
         tree.grid(row=0, sticky="nswe")
         scrollbar.grid(row=0, column=1, sticky="ns")
@@ -142,8 +142,8 @@ class Window(tk.Toplevel):
             FROM Photovoltaiques
             ORDER BY id_travaux
         """
-        tree = display.createTreeViewDisplayQuery(tab5, columns, query, 85)
-        scrollbar = ttk.Scrollbar(tab4,orient='vertical',command=tree.yview)
+        tree = display.createTreeViewDisplayQuery(tab8, columns, query, 85)
+        scrollbar = ttk.Scrollbar(tab8,orient='vertical',command=tree.yview)
         tree.configure(yscrollcommand=scrollbar.set)
         tree.grid(row=0, sticky="nswe")
         scrollbar.grid(row=0, column=1, sticky="ns")
