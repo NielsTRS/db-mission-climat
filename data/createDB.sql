@@ -43,7 +43,7 @@ create table Communes (
 );
 
 create table Travaux (
-    id_travaux AUTO_INCREMENT,
+    id_travaux INTEGER PRIMARY KEY AUTOINCREMENT,
     cout_total_ht_travaux FLOAT,
     cout_induit_ht_travaux FLOAT,
     annee_travaux INTEGER,
@@ -51,7 +51,6 @@ create table Travaux (
     annee_construction_logement_travaux INTEGER,
     code_region INTEGER,
     code_departement INTEGER,
-    constraint pk_travaux primary key (id_travaux),
     constraint fk1_travaux foreign key (code_region) references Regions (code_region),
     constraint fk2_travaux foreign key (code_departement) references Departements (code_departement),
     constraint ck_travaux check (id_travaux>=0 AND cout_total_ht_travaux>0 AND cout_induit_ht_travaux>0 AND annee_travaux>=0 AND annee_construction_logement_travaux>=0)
@@ -63,7 +62,7 @@ create table Isolations (
     isolant_isolation TEXT,
     epaisseur_isolation INTEGER,
     surface_isolation FLOAT,
-    constraint pk_isolations primary key (id_travaux),
+    --constraint pk_isolations primary key (id_travaux),
     constraint fk_isolations foreign key (id_travaux) references Travaux (id_travaux),
     --constraint ck1_isolations check (poste_isolation='COMBLES PERDUES' OR poste_isolation='ITI' OR poste_isolation='ITE' OR
     --poste_isolation='RAMPANTS' OR poste_isolation='SARKING' OR poste_isolation='TOITURE TERRASSE' OR poste_isolation='PLANCHER BAS'),
@@ -78,8 +77,8 @@ create table Chauffages (
     energie_installee_chauffage TEXT,
     generateur_chauffage TEXT,
     type_chauffage TEXT,
-    constraint pk_chauffages primary key (id_travaux)
-    --constraint fk_chauffages foreign key (id_travaux) references Travaux (id_travaux),
+    --constraint pk_chauffages primary key (id_travaux)
+    constraint fk_chauffages foreign key (id_travaux) references Travaux (id_travaux)
     --constraint ck1_chauffages check (energie_avt_travaux_chauffage='AUTRES' OR energie_avt_travaux_chauffage='BOIS' OR
     --energie_avt_travaux_chauffage='ELECTRICITE' OR energie_avt_travaux_chauffage='FIOUL' OR energie_avt_travaux_chauffage='GAZ'),
     --constraint ck2_chauffages check (energie_installee_chauffage='AUTRES' OR energie_installee_chauffage='BOIS' OR
@@ -94,7 +93,7 @@ create table Photovoltaiques (
     id_travaux INTEGER,
     puissance_installee_photovoltaique INTEGER,
     type_panneau_photovoltaique TEXT,
-    constraint pk_photovoltaiques primary key (id_travaux),
+    --constraint pk_photovoltaiques primary key (id_travaux),
     constraint fk_photovoltaiques foreign key (id_travaux) references Travaux (id_travaux),
     constraint ck_photovoltaiques check (puissance_installee_photovoltaique>=0) --AND (type_panneau_photovoltaique='MONOCRISTALLIN' OR type_panneau_photovoltaique='POLYCRISTALLIN')
 );
