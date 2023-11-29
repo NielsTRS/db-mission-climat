@@ -50,7 +50,7 @@ class Window(tk.Toplevel):
                 )
                 SELECT code_departement, nom_departement, annee, ROUND(AVG(temperature_moy_mesure), 2) AS moyenne, MIN(temperature_min_mesure) AS minimum, MAX(temperature_max_mesure) AS maximum
                 FROM Data
-                GROUP BY code_departement, nom_departement, annee;
+                GROUP BY code_departement, nom_departement, annee
             """
             cursor = db.data.cursor()
             result = cursor.execute(query)
