@@ -52,8 +52,8 @@ create table Travaux (
     code_region INTEGER,
     code_departement INTEGER,
     constraint fk1_travaux foreign key (code_region) references Regions (code_region),
-    constraint fk2_travaux foreign key (code_departement) references Departements (code_departement),
-    constraint ck_travaux check (id_travaux>=0 AND cout_total_ht_travaux>0 AND cout_induit_ht_travaux>0 AND annee_travaux>=0 AND annee_construction_logement_travaux>=0)
+    constraint fk2_travaux foreign key (code_departement) references Departements (code_departement)
+    --constraint ck_travaux check (id_travaux>=0 AND cout_total_ht_travaux>0 AND cout_induit_ht_travaux>0 AND annee_travaux>=0 AND annee_construction_logement_travaux>=0)
 );
 
 create table Isolations (
@@ -94,6 +94,6 @@ create table Photovoltaiques (
     puissance_installee_photovoltaique INTEGER,
     type_panneau_photovoltaique TEXT,
     --constraint pk_photovoltaiques primary key (id_travaux),
-    constraint fk_photovoltaiques foreign key (id_travaux) references Travaux (id_travaux),
-    constraint ck_photovoltaiques check (puissance_installee_photovoltaique>=0) --AND (type_panneau_photovoltaique='MONOCRISTALLIN' OR type_panneau_photovoltaique='POLYCRISTALLIN')
+    constraint fk_photovoltaiques foreign key (id_travaux) references Travaux (id_travaux)
+    --constraint ck_photovoltaiques check (puissance_installee_photovoltaique>=0) --AND (type_panneau_photovoltaique='MONOCRISTALLIN' OR type_panneau_photovoltaique='POLYCRISTALLIN')
 );

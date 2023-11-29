@@ -100,43 +100,26 @@ def insertDB():
         )
 
         # On ajoute les travaux
-        read_csv_file(
-             "data/csv/Isolation.csv", ';',
-             "insert into Travaux values (NULL, '{}', '{}', '{}', '{}', '{}', '{}', '{}')",
-             ['cout_total_ht', 'cout_induit_ht', 'annee_travaux', 'type_logement', 'annee_construction', 'code_region', 'code_departement']
-        )
-        read_csv_file(
-             "data/csv/Chauffage.csv", ';',
-             "insert into Travaux values (NULL, '{}', '{}', '{}', '{}', '{}', '{}', '{}')",
-             ['cout_total_ht', 'cout_induit_ht', 'annee_travaux', 'type_logement', 'annee_construction', 'code_region', 'code_departement']
-        )
-        read_csv_file(
-             "data/csv/Photovoltaique.csv", ';',
-             "insert into Travaux values (NULL, '{}', '{}', '{}', '{}', '{}', '{}', '{}')",
-             ['cout_total_ht', 'cout_induit_ht', 'annee_travaux', 'type_logement', 'annee_construction', 'code_region', 'code_departement']
-        )
+        query_travaux = "insert into Travaux values (NULL, '{}', '{}', '{}', '{}', '{}', {}, '{}')"
+        columns_travaux = ['cout_total_ht', 'cout_induit_ht', 'annee_travaux', 'type_logement', 'annee_construction',
+                           'code_region', 'code_departement']
 
-        # On ajoute les isolations
-        read_csv_file(
-             "data/csv/Isolation.csv", ';',
-             "insert into Isolations values (NULL, '{}', '{}', '{}', '{}')",
-             ['poste_isolation', 'isolant', 'epaisseur', 'surface']
-        )
+        # Isolation
+        query_isolations = "insert into Isolations values ('{}', '{}', '{}', {}, {})"
+        columns_isolations = ['poste_isolation', 'isolant', 'epaisseur', 'surface']
+        insert_data("data/csv/Isolation.csv", query_travaux, columns_travaux, query_isolations, columns_isolations)
 
-        # On ajoute les chauffages
-        read_csv_file(
-             "data/csv/Chauffage.csv", ';',
-             "insert into Chauffages values (NULL, '{}', '{}', '{}', '{}')",
-             ['energie_chauffage_avt_travaux', 'energie_chauffage_installee', 'generateur', 'type_chaudiere']
-        )
+        # Chauffage
+        query_chauffage = "insert into Chauffages values ('{}', '{}', '{}', '{}', '{}')"
+        columns_chauffage = ['energie_chauffage_avt_travaux', 'energie_chauffage_installee', 'generateur',
+                             'type_chaudiere']
+        insert_data("data/csv/Chauffage.csv", query_travaux, columns_travaux, query_chauffage, columns_chauffage)
 
-        # On ajoute les photovoltaiques
-        read_csv_file(
-             "data/csv/Photovoltaique.csv", ';',
-             "insert into Photovoltaiques values (NULL, '{}', '{}')",
-             ['puissance_installee', 'type_panneaux']
-        )
-
+        # Photovoltaique
+        query_photovoltaique = "insert into Photovoltaiques values ({}, '{}')"
+        columns_photovoltaique = ['puissance_installee', 'type_panneaux']
+        insert_data("data/csv/Photovoltaique.csv", query_travaux, columns_travaux, query_photovoltaique,
+                    columns_photovoltaique)
 
     except Exception as e:
         print ("L'erreur suivante s'est produite lors de l'insertion des données : " + repr(e) + ".")
@@ -179,3 +162,38 @@ def read_csv_file(csvFile, separator, query, columns):
         except IntegrityError as err:
             print(err)
 
+def insert_data(csvFile, query_travaux, columns_travaux, query_specific, columns_specific, verbose=False):
+    separator = ";"
+
+    df = pandas.read_csv(csvFile, sep=separator)
+    df = df.where(pandas.notnull(df), 'null')
+    cursor = data.cursor()
+    for ix, row in df.iterrows():
+        try:
+            # Insert into Travaux
+            tab_travaux = []
+            for i in range(len(columns_travaux)):
+                if isinstance(row[columns_travaux[i]], str):
+                    row[columns_travaux[i]] = row[columns_travaux[i]].replace("'", "''")
+                tab_travaux.append(row[columns_travaux[i]])
+
+            formated_query_travaux = query_travaux.format(*tab_travaux)
+            if verbose:
+                print(formated_query_travaux)
+            cursor.execute(formated_query_travaux)
+            last_id = cursor.lastrowid
+
+            # Insert with last_id into specific table
+            tab_specific = []
+            for i in range(len(columns_specific)):
+                if isinstance(row[columns_specific[i]], str):
+                    row[columns_specific[i]] = row[columns_specific[i]].replace("'", "''")
+                tab_specific.append(row[columns_specific[i]])
+
+            formated_query_specific = query_specific.format(last_id, *tab_specific)
+            if verbose:
+                print(formated_query_specific)
+            cursor.execute(formated_query_specific)
+
+        except IntegrityError as err:
+            print(err)
