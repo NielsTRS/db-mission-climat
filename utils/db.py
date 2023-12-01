@@ -102,7 +102,7 @@ def insertDB():
 
         # On ajoute les travaux
         query_travaux = "insert into Travaux values (NULL, '{}', '{}', '{}', '{}', '{}', '{}', '{}')"
-        columns_travaux = ['cout_total_ht', 'cout_induit_ht', 'annee_travaux', 'type_logement', 'annee_construction',
+        columns_travaux = ['cout_total_ht', 'cout_induit_ht', 'date_x', 'type_logement', 'annee_construction',
                            'code_region', 'code_departement']
 
         # Isolations
