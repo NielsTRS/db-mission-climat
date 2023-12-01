@@ -15,16 +15,14 @@ class Window(tk.Toplevel):
         display.defineGridDisplay(self, 2, 1)
 
         query = """
-            WITH Data AS (SELECT T.annee_travaux, SUM(T.cout_total_ht_travaux) as total
-              FROM Travaux T
-              WHERE T.annee_travaux = 2018
-                AND T.code_departement = 1
-              GROUP BY T.annee_travaux
-            )
-            SELECT strftime('%Y-%m', M.date_mesure) as mois, D.total, AVG(M.temperature_min_mesure) as temp
+            WITH Data AS (SELECT strftime('%Y-%m', date_travaux) as date, code_departement, SUM(cout_total_ht_travaux) as total
+              FROM Travaux
+              GROUP BY date, code_departement)
+
+            SELECT D.date, D.total, AVG(M.temperature_min_mesure)
             FROM Data D
-            JOIN Mesures M ON (D.annee_travaux = strftime('%Y', M.date_mesure) AND M.code_departement = 38)
-            GROUP BY mois, D.total;
+            JOIN Mesures M ON (D.code_departement = M.code_departement AND D.date = strftime('%Y-%m', M.date_mesure) AND D.code_departement = 1)
+            GROUP BY D.date, D.total;
         """
 
         # Extraction des données et affichage dans le tableau
