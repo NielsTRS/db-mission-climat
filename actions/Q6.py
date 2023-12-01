@@ -42,7 +42,6 @@ class Window(tk.Toplevel):
             tabtot.append(row[1])
             tabmin.append(row[2])
 
-        print(tabmin)
         # Formatage des dates pour l'affichage sur l'axe x
         datetime_dates = [datetime.strptime(date, '%Y-%m') for date in tabx]
 

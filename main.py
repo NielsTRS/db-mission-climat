@@ -57,7 +57,7 @@ class App(tk.Tk):
         # Pour aller plus loin
         ttk.Label(self, text='Pour aller plus loin', background='lightgrey', anchor="center",
                   font=('Helvetica', '10', 'bold')).grid(columnspan=3, sticky="we", pady=(20,5))
-        ttk.Button(self, text='Q6 : graphique sur la correlation temperatures minimales - coût de travaux (Isère / 2022)',
+        ttk.Button(self, text='Q6 : graphique sur la correlation temperatures minimales - coût de travaux (Loiret / 2018)',
                    command=self.open_Q6_window).grid(columnspan=3, pady=5)
         ttk.Button(self, text="Q7 : gérer l'ajout/modification/suppression pour un type de travaux",
                    command=self.open_Q7_window).grid(columnspan=3, pady=5)
