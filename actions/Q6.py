@@ -11,7 +11,7 @@ class Window(tk.Toplevel):
 
         # Définition de la taille de la fenêtre, du titre et des lignes/colonnes de l'affichage grid
         display.centerWindow(1000, 600, self)
-        self.title('Q6 : Graphique correlation temperatures minimales - coût de travaux (Ain / 2018)')
+        self.title('Q6 : Graphique correlation temperatures minimales - coût de travaux (Loiret / 2018)')
         display.defineGridDisplay(self, 2, 1)
 
         query = """
@@ -19,9 +19,9 @@ class Window(tk.Toplevel):
               FROM Travaux
               GROUP BY date, code_departement)
 
-            SELECT D.date, D.total, AVG(M.temperature_min_mesure)
+            SELECT D.date, D.total, AVG(M.temperature_min_mesure) as temp
             FROM Data D
-            JOIN Mesures M ON (D.code_departement = M.code_departement AND D.date = strftime('%Y-%m', M.date_mesure) AND D.code_departement = 1)
+            JOIN Mesures M ON (D.code_departement = M.code_departement AND D.date = strftime('%Y-%m', M.date_mesure) AND D.code_departement = 45 AND strftime('%Y', M.date_mesure) = '2018')
             GROUP BY D.date, D.total;
         """
 
@@ -42,6 +42,7 @@ class Window(tk.Toplevel):
             tabtot.append(row[1])
             tabmin.append(row[2])
 
+        print(tabmin)
         # Formatage des dates pour l'affichage sur l'axe x
         datetime_dates = [datetime.strptime(date, '%Y-%m') for date in tabx]
 
