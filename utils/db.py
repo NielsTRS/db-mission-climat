@@ -125,6 +125,13 @@ def insertDB():
         print ("L'erreur suivante s'est produite lors de l'insertion des données : " + repr(e) + ".")
     else:
         data.commit()
+        # Modification du format de date pour Travaux
+        cursor = data.cursor()
+        cursor.execute("""
+            UPDATE Travaux
+            SET date_travaux = strftime('%Y-%m-%d', date(substr(date_travaux, 7, 4) || '-' || substr(date_travaux, 4, 2) || '-' || substr(date_travaux, 1, 2)));
+        """)
+        data.commit()
         print("Un jeu de test a été inséré dans la base avec succès.")
 
 # En cas de clic sur le bouton de suppression de la base
