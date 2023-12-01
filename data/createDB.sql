@@ -37,8 +37,8 @@ create table Communes (
     population_commune FLOAT,
     code_canton_commune INTEGER,
     code_arrondissement_commune INTEGER,
-    constraint pk_communes primary key (code_commune, code_departement)
-    --constraint fk_communes foreign key (code_departement) references Departements(code_departement),
+    constraint pk_communes primary key (code_commune, code_departement),
+    constraint fk_communes foreign key (code_departement) references Departements(code_departement)
     --constraint ck_communes check (altitude_moyenne_commune>0 AND superficie_commune>0 AND population_commune>0 AND code_canton_commune>=0 AND code_arrondissement_commune>=0)
 );
 
@@ -62,7 +62,7 @@ create table Isolations (
     isolant_isolation TEXT,
     epaisseur_isolation INTEGER,
     surface_isolation FLOAT,
-    --constraint pk_isolations primary key (id_travaux),
+    constraint pk_isolations primary key (id_travaux),
     constraint fk_isolations foreign key (id_travaux) references Travaux (id_travaux),
     --constraint ck1_isolations check (poste_isolation='COMBLES PERDUES' OR poste_isolation='ITI' OR poste_isolation='ITE' OR
     --poste_isolation='RAMPANTS' OR poste_isolation='SARKING' OR poste_isolation='TOITURE TERRASSE' OR poste_isolation='PLANCHER BAS'),
@@ -77,7 +77,7 @@ create table Chauffages (
     energie_installee_chauffage TEXT,
     generateur_chauffage TEXT,
     type_chauffage TEXT,
-    --constraint pk_chauffages primary key (id_travaux)
+    constraint pk_chauffages primary key (id_travaux),
     constraint fk_chauffages foreign key (id_travaux) references Travaux (id_travaux)
     --constraint ck1_chauffages check (energie_avt_travaux_chauffage='AUTRES' OR energie_avt_travaux_chauffage='BOIS' OR
     --energie_avt_travaux_chauffage='ELECTRICITE' OR energie_avt_travaux_chauffage='FIOUL' OR energie_avt_travaux_chauffage='GAZ'),
@@ -93,7 +93,7 @@ create table Photovoltaiques (
     id_travaux INTEGER,
     puissance_installee_photovoltaique INTEGER,
     type_panneau_photovoltaique TEXT,
-    --constraint pk_photovoltaiques primary key (id_travaux),
+    constraint pk_photovoltaiques primary key (id_travaux),
     constraint fk_photovoltaiques foreign key (id_travaux) references Travaux (id_travaux)
     --constraint ck_photovoltaiques check (puissance_installee_photovoltaique>=0) --AND (type_panneau_photovoltaique='MONOCRISTALLIN' OR type_panneau_photovoltaique='POLYCRISTALLIN')
 );

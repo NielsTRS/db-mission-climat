@@ -11,14 +11,14 @@ class Window(tk.Toplevel):
 
         # Définition de la taille de la fenêtre, du titre et des lignes/colonnes de l'affichage grid
         display.centerWindow(1000, 600, self)
-        self.title('Q6 : Graphique correlation temperatures minimales - coût de travaux (Isère / 2022)')
+        self.title('Q6 : Graphique correlation temperatures minimales - coût de travaux (Ain / 2018)')
         display.defineGridDisplay(self, 2, 1)
 
         query = """
             WITH Data AS (SELECT T.annee_travaux, SUM(T.cout_total_ht_travaux) as total
               FROM Travaux T
-              WHERE T.annee_travaux = 2022
-                AND T.code_departement = 38
+              WHERE T.annee_travaux = 2018
+                AND T.code_departement = 1
               GROUP BY T.annee_travaux
             )
             SELECT strftime('%Y-%m', M.date_mesure) as mois, D.total, AVG(M.temperature_min_mesure) as temp

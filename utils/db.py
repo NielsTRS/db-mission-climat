@@ -83,8 +83,9 @@ def insertDB():
             "delete from Regions where code_region = {} and {} <> {}",
             ['Anciens Code', 'Anciens Code', 'Nouveau Code']
         )
-        print("Les erreurs UNIQUE constraint sont normales car on insère une seule fois les Regions et les Départemments")
+        print("Les erreurs UNIQUE constraint sont normales car on insère une seule fois les Regions et les Départements")
         print("Insertion de mesures en cours...cela peut prendre un peu de temps")
+
         # On ajoute les mesures
         read_csv_file(
              "data/csv/Mesures.csv", ';',
@@ -100,26 +101,25 @@ def insertDB():
         )
 
         # On ajoute les travaux
-        query_travaux = "insert into Travaux values (NULL, '{}', '{}', '{}', '{}', '{}', {}, '{}')"
+        query_travaux = "insert into Travaux values (NULL, '{}', '{}', '{}', '{}', '{}', '{}', '{}')"
         columns_travaux = ['cout_total_ht', 'cout_induit_ht', 'annee_travaux', 'type_logement', 'annee_construction',
                            'code_region', 'code_departement']
 
-        # Isolation
-        query_isolations = "insert into Isolations values ('{}', '{}', '{}', {}, {})"
+        # Isolations
+        query_isolations = "insert into Isolations values ('{}', '{}', '{}', '{}', '{}')"
         columns_isolations = ['poste_isolation', 'isolant', 'epaisseur', 'surface']
         insert_data("data/csv/Isolation.csv", query_travaux, columns_travaux, query_isolations, columns_isolations)
 
-        # Chauffage
-        query_chauffage = "insert into Chauffages values ('{}', '{}', '{}', '{}', '{}')"
-        columns_chauffage = ['energie_chauffage_avt_travaux', 'energie_chauffage_installee', 'generateur',
+        # Chauffages
+        query_chauffages = "insert into Chauffages values ('{}', '{}', '{}', '{}', '{}')"
+        columns_chauffages = ['energie_chauffage_avt_travaux', 'energie_chauffage_installee', 'generateur',
                              'type_chaudiere']
-        insert_data("data/csv/Chauffage.csv", query_travaux, columns_travaux, query_chauffage, columns_chauffage)
+        insert_data("data/csv/Chauffage.csv", query_travaux, columns_travaux, query_chauffages, columns_chauffages)
 
-        # Photovoltaique
-        query_photovoltaique = "insert into Photovoltaiques values ({}, '{}')"
-        columns_photovoltaique = ['puissance_installee', 'type_panneaux']
-        insert_data("data/csv/Photovoltaique.csv", query_travaux, columns_travaux, query_photovoltaique,
-                    columns_photovoltaique)
+        # Photovoltaiques
+        query_photovoltaiques = "insert into Photovoltaiques values ('{}', '{}', '{}')"
+        columns_photovoltaiques = ['puissance_installee', 'type_panneaux']
+        insert_data("data/csv/Photovoltaique.csv", query_travaux, columns_travaux, query_photovoltaiques, columns_photovoltaiques)
 
     except Exception as e:
         print ("L'erreur suivante s'est produite lors de l'insertion des données : " + repr(e) + ".")
