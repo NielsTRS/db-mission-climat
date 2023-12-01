@@ -5,6 +5,7 @@ from datetime import datetime
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
+
 class Window(tk.Toplevel):
     def __init__(self, parent):
         super().__init__(parent)
@@ -15,10 +16,11 @@ class Window(tk.Toplevel):
         display.defineGridDisplay(self, 2, 1)
 
         query = """
-            WITH Data AS (SELECT strftime('%Y-%m', date_travaux) as date, code_departement, SUM(cout_total_ht_travaux) as total
-              FROM Travaux
-              GROUP BY date, code_departement)
-
+            WITH Data AS (
+                SELECT strftime('%Y-%m', date_travaux) as date, code_departement, SUM(cout_total_ht_travaux) as total
+                FROM Travaux
+                GROUP BY date, code_departement
+            )
             SELECT D.date, D.total, AVG(M.temperature_min_mesure) as temp
             FROM Data D
             JOIN Mesures M ON (D.code_departement = M.code_departement AND D.date = strftime('%Y-%m', M.date_mesure) AND D.code_departement = 45 AND strftime('%Y', M.date_mesure) = '2018')

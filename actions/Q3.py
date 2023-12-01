@@ -3,8 +3,8 @@ from tkinter import ttk
 from utils import display
 from utils import db
 
-class Window(tk.Toplevel):
 
+class Window(tk.Toplevel):
     treeView = None
     entry = None
     listbox = None
@@ -17,12 +17,16 @@ class Window(tk.Toplevel):
         display.centerWindow(600, 450, self)
         self.title('Q3 : départements pour une région donnée (version dynamique)')
         display.defineGridDisplay(self, 3, 3)
-        self.grid_rowconfigure(3, weight=10) #On donne un poids plus important à la dernière ligne pour l'affichage du tableau
-        ttk.Label(self, text="On a repris le code de F2. Modifier l'interface pour proposer un choix de la région sans saisie manuelle (par exemple un proposer un menu déroulant avec les valeurs extraites de la base, ou toute autre idée).",
-                  wraplength=500, anchor="center", font=('Helvetica', '10', 'bold')).grid(sticky="we", row=0,columnspan=3)
+        self.grid_rowconfigure(3,
+                               weight=10)  # On donne un poids plus important à la dernière ligne pour l'affichage du tableau
+        ttk.Label(self,
+                  text="On a repris le code de F2. Modifier l'interface pour proposer un choix de la région sans saisie manuelle (par exemple un proposer un menu déroulant avec les valeurs extraites de la base, ou toute autre idée).",
+                  wraplength=500, anchor="center", font=('Helvetica', '10', 'bold')).grid(sticky="we", row=0,
+                                                                                          columnspan=3)
 
-        ttk.Label(self, text='Veuillez indiquer une région :', anchor="center", font=('Helvetica', '10', 'bold')).grid(row=1, column=0)
-        #TODO Q3 C'est cette partie que l'on souhaite changer pour un choix dynamique de la région
+        ttk.Label(self, text='Veuillez indiquer une région :', anchor="center", font=('Helvetica', '10', 'bold')).grid(
+            row=1, column=0)
+        # TODO Q3 C'est cette partie que l'on souhaite changer pour un choix dynamique de la région
         self.entry = tk.Entry(self)
         self.entry.grid(row=1, column=1)
         self.entry.bind('<KeyRelease>', self.update_suggestions)
@@ -105,6 +109,8 @@ class Window(tk.Toplevel):
                     self.treeView.insert('', tk.END, values=row)
                     i += 1
                 if i == 0:
-                    self.errorLabel.config(foreground='orange', text="Aucun résultat pour la région \"" + region + "\" !")
+                    self.errorLabel.config(foreground='orange',
+                                           text="Aucun résultat pour la région \"" + region + "\" !")
                 else:
-                    self.errorLabel.config(foreground='green', text="Voici les résultats pour la région \"" + region + "\" :")
+                    self.errorLabel.config(foreground='green',
+                                           text="Voici les résultats pour la région \"" + region + "\" :")

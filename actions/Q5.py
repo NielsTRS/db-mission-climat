@@ -4,8 +4,8 @@ from utils import display
 from utils import db
 import time
 
-class Window(tk.Toplevel):
 
+class Window(tk.Toplevel):
     treeview = False
     timelabel = False
 
@@ -17,8 +17,10 @@ class Window(tk.Toplevel):
         self.title('Q5 : températures par département et par année (version optimisée)')
         display.defineGridDisplay(self, 4, 2)
         self.grid_rowconfigure(3, weight=10)
-        ttk.Label(self, text="On a repris le code de F3. Modifier le code pour optimiser l'algorithme à la fois en terme de temps d'exécution mais aussi de nombre de requêtes exécutées (éco-conception).",
-                  wraplength=500, anchor="center", font=('Helvetica', '10', 'bold')).grid(sticky="we", row=0, columnspan=2)
+        ttk.Label(self,
+                  text="On a repris le code de F3. Modifier le code pour optimiser l'algorithme à la fois en terme de temps d'exécution mais aussi de nombre de requêtes exécutées (éco-conception).",
+                  wraplength=500, anchor="center", font=('Helvetica', '10', 'bold')).grid(sticky="we", row=0,
+                                                                                          columnspan=2)
 
         # On prépare les éléments à afficher
         ttk.Label(self, text="Lancer l'extraction des données :", anchor="center").grid(row=1, column=0)
@@ -62,11 +64,11 @@ class Window(tk.Toplevel):
             for ligne in result:
                 tab.append([ligne[0], ligne[1], ligne[2], ligne[3], ligne[4], ligne[5]])
 
-
         # On affiche les données du tableau dans la treeview
         for row in tab:
             self.treeview.insert('', tk.END, values=row)
 
         # On arrête le chrono et on calcule puis affiche le temps passé à l'extraction des données
         end = time.time()
-        self.timelabel.configure(text="Le calcul a pris " + str(round(end - start, 3)) + " secondes et exécuté " + str(nbquery) + " requêtes.")
+        self.timelabel.configure(text="Le calcul a pris " + str(round(end - start, 3)) + " secondes et exécuté " + str(
+            nbquery) + " requêtes.")

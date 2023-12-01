@@ -2,6 +2,7 @@ import tkinter as tk
 from utils import display
 from tkinter import ttk
 
+
 class Window(tk.Toplevel):
     def __init__(self, parent):
         super().__init__(parent)
@@ -10,13 +11,14 @@ class Window(tk.Toplevel):
         display.centerWindow(600, 400, self)
         self.title('Q2 : département le plus froid par région')
         display.defineGridDisplay(self, 2, 1)
-        ttk.Label(self, text="Modifier cette fonction en s'inspirant du code de F1, pour qu'elle affiche le(s) département(s) avec la température moyenne (c.a.d. moyenne des moyennes de toutes les mesures) la plus basse par région. \nSchéma attendu : (nom_region, nom_departement, temperature_moy_min)",
+        ttk.Label(self,
+                  text="Modifier cette fonction en s'inspirant du code de F1, pour qu'elle affiche le(s) département(s) avec la température moyenne (c.a.d. moyenne des moyennes de toutes les mesures) la plus basse par région. \nSchéma attendu : (nom_region, nom_departement, temperature_moy_min)",
                   wraplength=500, anchor="center", font=('Helvetica', '10', 'bold')).grid(sticky="we", row=0)
 
-        #TODO Q2 Modifier la suite du code (en se basant sur le code de F1) pour répondre à Q2
+        # TODO Q2 Modifier la suite du code (en se basant sur le code de F1) pour répondre à Q2
 
         # On définit les colonnes que l'on souhaite afficher dans la fenêtre et la requête
-        columns = ('nom_region', 'nom_departement','temperature_min_moy')
+        columns = ('nom_region', 'nom_departement', 'temperature_min_moy')
         query = """
                 WITH TempMoyByDep AS (
                     SELECT code_region, code_departement, AVG(temperature_moy_mesure) AS temperature_moy_dep
@@ -36,6 +38,6 @@ class Window(tk.Toplevel):
                 """
 
         # On utilise la fonction createTreeViewDisplayQuery pour afficher les résultats de la requête
-        #TODO Q1 Aller voir le code de createTreeViewDisplayQuery dans utils/display.py
-        tree = display.createTreeViewDisplayQuery(self, columns, query,200)
+        # TODO Q1 Aller voir le code de createTreeViewDisplayQuery dans utils/display.py
+        tree = display.createTreeViewDisplayQuery(self, columns, query, 200)
         tree.grid(row=0, sticky="nswe")

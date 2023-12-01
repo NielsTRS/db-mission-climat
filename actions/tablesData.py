@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import ttk
 from utils import display
 
+
 class Window(tk.Toplevel):
 
     def __init__(self, parent):
@@ -13,7 +14,7 @@ class Window(tk.Toplevel):
         display.defineGridDisplay(self, 1, 1)
 
         # Définition des onglets
-        #TODO Q4 Créer des nouveaux onglets pour les nouvelles tables
+        # TODO Q4 Créer des nouveaux onglets pour les nouvelles tables
         tabControl = ttk.Notebook(self)
         tab1 = ttk.Frame(tabControl)
         tab2 = ttk.Frame(tabControl)
@@ -42,7 +43,8 @@ class Window(tk.Toplevel):
         tabControl.grid(row=0, column=0, sticky="nswe")
 
         # Mesures
-        columns = ('code_departement', 'date_mesure', 'temperature_min_mesure', 'temperature_max_mesure', 'temperature_moy_mesure')
+        columns = (
+        'code_departement', 'date_mesure', 'temperature_min_mesure', 'temperature_max_mesure', 'temperature_moy_mesure')
         query = """
             SELECT code_departement, date_mesure, temperature_min_mesure, temperature_max_mesure, temperature_moy_mesure
             FROM Mesures
@@ -63,7 +65,7 @@ class Window(tk.Toplevel):
             ORDER BY code_departement
         """
         tree = display.createTreeViewDisplayQuery(tab2, columns, query, 200)
-        scrollbar = ttk.Scrollbar(tab2,orient='vertical',command=tree.yview)
+        scrollbar = ttk.Scrollbar(tab2, orient='vertical', command=tree.yview)
         tree.configure(yscrollcommand=scrollbar.set)
         tree.grid(row=0, sticky="nswe")
         scrollbar.grid(row=0, column=1, sticky="ns")
@@ -76,35 +78,38 @@ class Window(tk.Toplevel):
             ORDER BY code_region
         """
         tree = display.createTreeViewDisplayQuery(tab3, columns, query, 250)
-        scrollbar = ttk.Scrollbar(tab3,orient='vertical',command=tree.yview)
+        scrollbar = ttk.Scrollbar(tab3, orient='vertical', command=tree.yview)
         tree.configure(yscrollcommand=scrollbar.set)
         tree.grid(row=0, sticky="nswe")
         scrollbar.grid(row=0, column=1, sticky="ns")
 
-        #TODO Q4 Afficher les données des nouvelles tables
+        # TODO Q4 Afficher les données des nouvelles tables
 
         # Communes
-        columns = ('code_commune', 'code_departement', 'nom_commune', 'statut_commune', 'altitude_moyenne_commune', 'superficie_commune', 'population_commune', 'code_canton_commune', 'code_arrondissement_commune')
+        columns = ('code_commune', 'code_departement', 'nom_commune', 'statut_commune', 'altitude_moyenne_commune',
+                   'superficie_commune', 'population_commune', 'code_canton_commune', 'code_arrondissement_commune')
         query = """
             SELECT code_commune, code_departement, nom_commune, statut_commune, altitude_moyenne_commune, superficie_commune, population_commune, code_canton_commune, code_arrondissement_commune
             FROM Communes
             ORDER BY code_commune
         """
         tree = display.createTreeViewDisplayQuery(tab4, columns, query, 85)
-        scrollbar = ttk.Scrollbar(tab4,orient='vertical',command=tree.yview)
+        scrollbar = ttk.Scrollbar(tab4, orient='vertical', command=tree.yview)
         tree.configure(yscrollcommand=scrollbar.set)
         tree.grid(row=0, sticky="nswe")
         scrollbar.grid(row=0, column=1, sticky="ns")
 
         # Travaux
-        columns = ('id_travaux', 'cout_total_ht_travaux', 'cout_induit_ht_travaux', 'date_travaux', 'type_logement_travaux', 'annee_construction_logement_travaux', 'code_region', 'code_departement')
+        columns = (
+        'id_travaux', 'cout_total_ht_travaux', 'cout_induit_ht_travaux', 'date_travaux', 'type_logement_travaux',
+        'annee_construction_logement_travaux', 'code_region', 'code_departement')
         query = """
             SELECT id_travaux, cout_total_ht_travaux, cout_induit_ht_travaux, date_travaux, type_logement_travaux, annee_construction_logement_travaux, code_region, code_departement
             FROM Travaux
             ORDER BY id_travaux
         """
         tree = display.createTreeViewDisplayQuery(tab5, columns, query, 95)
-        scrollbar = ttk.Scrollbar(tab5,orient='vertical',command=tree.yview)
+        scrollbar = ttk.Scrollbar(tab5, orient='vertical', command=tree.yview)
         tree.configure(yscrollcommand=scrollbar.set)
         tree.grid(row=0, sticky="nswe")
         scrollbar.grid(row=0, column=1, sticky="ns")
@@ -117,20 +122,21 @@ class Window(tk.Toplevel):
             ORDER BY id_travaux
         """
         tree = display.createTreeViewDisplayQuery(tab6, columns, query, 150)
-        scrollbar = ttk.Scrollbar(tab6,orient='vertical',command=tree.yview)
+        scrollbar = ttk.Scrollbar(tab6, orient='vertical', command=tree.yview)
         tree.configure(yscrollcommand=scrollbar.set)
         tree.grid(row=0, sticky="nswe")
         scrollbar.grid(row=0, column=1, sticky="ns")
 
         # Chauffages
-        columns = ('id_travaux', 'energie_avt_travaux_chauffage', 'energie_installee_chauffage', 'generateur_chauffage', 'type_chauffage')
+        columns = ('id_travaux', 'energie_avt_travaux_chauffage', 'energie_installee_chauffage', 'generateur_chauffage',
+                   'type_chauffage')
         query = """
             SELECT id_travaux, energie_avt_travaux_chauffage, energie_installee_chauffage, generateur_chauffage, type_chauffage
             FROM Chauffages
             ORDER BY id_travaux
         """
         tree = display.createTreeViewDisplayQuery(tab7, columns, query, 150)
-        scrollbar = ttk.Scrollbar(tab7,orient='vertical',command=tree.yview)
+        scrollbar = ttk.Scrollbar(tab7, orient='vertical', command=tree.yview)
         tree.configure(yscrollcommand=scrollbar.set)
         tree.grid(row=0, sticky="nswe")
         scrollbar.grid(row=0, column=1, sticky="ns")
@@ -143,8 +149,7 @@ class Window(tk.Toplevel):
             ORDER BY id_travaux
         """
         tree = display.createTreeViewDisplayQuery(tab8, columns, query, 250)
-        scrollbar = ttk.Scrollbar(tab8,orient='vertical',command=tree.yview)
+        scrollbar = ttk.Scrollbar(tab8, orient='vertical', command=tree.yview)
         tree.configure(yscrollcommand=scrollbar.set)
         tree.grid(row=0, sticky="nswe")
         scrollbar.grid(row=0, column=1, sticky="ns")
-
