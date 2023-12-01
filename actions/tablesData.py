@@ -103,7 +103,7 @@ class Window(tk.Toplevel):
             FROM Travaux
             ORDER BY id_travaux
         """
-        tree = display.createTreeViewDisplayQuery(tab5, columns, query, 85)
+        tree = display.createTreeViewDisplayQuery(tab5, columns, query, 95)
         scrollbar = ttk.Scrollbar(tab5,orient='vertical',command=tree.yview)
         tree.configure(yscrollcommand=scrollbar.set)
         tree.grid(row=0, sticky="nswe")
